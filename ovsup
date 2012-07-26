@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ifconfig \$5 0.0.0.0 up
+ovs-vsctl add-port br0 \$5
+
