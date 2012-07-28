@@ -5,7 +5,7 @@ hostname=$1
 ip=$2
 switch=$3
 
-sed -e "s/vim\,ssh/vim\,ssh\,tshark\,inetutils-ping\,intetutils-traceroute\,iperf/g" -i /usr/lib/lxc/templates/lxc-ubuntu
+sed -e "s/vim\,ssh\$/vim\,ssh\,tshark\,inetutils-ping\,intetutils-traceroute\,iperf/g" -i  /usr/lib/lxc/templates/lxc-ubuntu
 
 cat > /etc/lxc/lxc-ovs.conf << EOF
 lxc.network.type=veth
