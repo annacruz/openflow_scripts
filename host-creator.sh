@@ -1,5 +1,6 @@
 #!/bin/bash
 #set -e
+#Cria uma VM LXC (o nome da VM eh definido no 1o parametro) com uma interface (eth0) ligada a um determinado switch OVS (switch definido no 3o parametro) e com uma interface disponivel para ssh (interface eth1 - necessario rodar dhclient nesta inter). Somente o ultimo octeto do endereco IP eh definivel (2o parametro).
 
 hostname=$1
 ip=$2
