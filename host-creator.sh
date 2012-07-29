@@ -9,7 +9,7 @@ sed -e "s/vim\,ssh\$/vim\,ssh\,tshark\,inetutils-ping\,intetutils-traceroute\,ip
 
 cat > /etc/lxc/lxc-ovs.conf << EOF
 lxc.network.type=veth
-lxc.network.script.up=/etc/lxc/ovsup
+lxc.network.script.up=/etc/lxc/ovsup$switch
 lxc.network.ipv4=11.0.0.$ip
 lxc.network.flags=up
 lxc.network.type=veth
@@ -17,14 +17,16 @@ lxc.network.link=lxcbr0
 lxc.network.flags=up
 EOF
 
+if [ ! -f /etc/lxc/ovsup$switch ]
+then
+	cat > /etc/lxc/ovsup$switch << EOF
+	#!/bin/bash
 
-cat > /etc/lxc/ovsup << EOF
-#!/bin/bash
-
-ifconfig \$5 0.0.0.0 up
-ovs-vsctl add-port $switch \$5
+	ifconfig \$5 0.0.0.0 up
+	ovs-vsctl add-port $switch \$5
 EOF
-chmod ugo+x /etc/lxc/ovsup
+fi
+chmod 755 /etc/lxc/ovsup$switch
 
 lxc-create -t ubuntu -n $hostname -f /etc/lxc/lxc-ovs.conf
 #

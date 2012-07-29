@@ -1,3 +1,15 @@
 #!/bin/bash
-ovs-vsctl add-port br0 patch1.2 -- set Interface patch1.2 type="patch" options:peer="patch2.1" ofport=3
-ovs-vsctl add-port br1 patch2.1 -- set Interface patch2.1 type="patch" options:peer="patch1.2" ofport=3
+
+switch1=$1
+switch2=$2
+cablename1=patch$1.$2
+cablename2=patch$2.$1
+
+
+ovs-vsctl add-port $switch1 $cablename1 -- set Interface $cablename1 type="patch" options:peer=$cablename2
+ovs-vsctl add-port $switch2 $cablename2 -- set Interface $cablename2 type="patch" options:peer=$cablename1
+
+porta1=`ovs-vsctl get Interface $cablename1 ofport`
+porta2=`ovs-vsctl get Interface $cablename2 ofport`
+echo ID da porta $cablename1: $porta1
+echo ID da porta $cablename2: $porta2
